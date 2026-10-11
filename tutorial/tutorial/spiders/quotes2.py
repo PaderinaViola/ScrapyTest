@@ -1,20 +1,21 @@
-from pathlib import Path
-
 import scrapy
 
 
 class QuotesSpider(scrapy.Spider):
-    name = "quotes2" #each spider name must be unique in the project
-
-    async def start(self):
-        urls = [
-            "https://www.pap.pl/aktualnosci/atak-w-szkole-w-ostrolece-co-najmniej-siedem-osob-rannych",
-        ]
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+    name = "quotes"
+    start_urls = [
+        "https://quotes.toscrape.com/page/1/",
+    ]
 
     def parse(self, response):
-        page = response.url.split("/")[-2]
-        filename = f"quotes-{page}.html"
-        Path(filename).write_bytes(response.body)
-        self.log(f"Saved file {filename}")
+        for quote in response.css("div.quote"):
+            yield {
+                "text": quote.css("span.text::text").get(), #we look into the html to find the keys how to access certain elements wee need
+                "author": quote.css("small.author::text").get(),
+                "tags": quote.css("div.tags a.tag::text").getall(),
+            }
+
+        next_page = response.css("li.next a::attr(href)").get() #the html link to the "next" button
+        if next_page is not None:
+            next_page = response.urljoin(next_page)
+            yield scrapy.Request(next_page, callback=self.parse)

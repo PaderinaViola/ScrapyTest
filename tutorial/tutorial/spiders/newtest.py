@@ -8,7 +8,7 @@ class QuotesSpider(scrapy.Spider):
 
     async def start(self):
         urls = [
-            "https://www.pap.pl/",
+            "https://quotes.toscrape.com/",
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
