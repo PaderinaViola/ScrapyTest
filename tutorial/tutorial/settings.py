@@ -54,6 +54,8 @@ DOWNLOADER_MIDDLEWARES = {
 DOWNLOAD_HANDLERS = {
     "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+    "http": "scrapy_camoufox.handler.ScrapyCamoufoxDownloadHandler",
+    "https": "scrapy_camoufox.handler.ScrapyCamoufoxDownloadHandler",
 }
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -90,3 +92,6 @@ DOWNLOAD_HANDLERS = {
 
 # Set settings whose default value is deprecated to a future-proof value
 FEED_EXPORT_ENCODING = "utf-8"
+# settings.py
+TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+

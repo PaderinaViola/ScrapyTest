@@ -14,6 +14,8 @@ class QuotesSpider(scrapy.Spider):
         }
 
       
+#to be implemented: playwright, camoufox, optionally pi-hole + docker. traffic analysis
+
 
 
 #<span class="text" itemprop="text">“...”</span>
